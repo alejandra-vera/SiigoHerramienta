@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Información de las empresas</title>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+    .filters {
+      background-color: #cce5cc;
+      padding: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .filters select,
+    .filters input[type="text"] {
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    table {
+      width: 100%;
+      margin: 1rem auto;
+      border-collapse: collapse;
+    }
+    table.display tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    table.display tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+  </style>
+</head>
+<body>
+
+  <header>Información de las empresas</header>
+
+  <div class="filters">
+    <select id="filtro-mes">
+      <option value="">Mes</option>
+      <option value="enero">Enero</option>
+      <option value="febrero">Febrero</option>
+      <option value="marzo">Marzo</option>
+    </select>
+    <select id="filtro-estado">
+      <option value="">Estado</option>
+      <option value="activo">Activo</option>
+      <option value="cerrado">Cerrado</option>
+    </select>
+    <select id="filtro-contrato">
+      <option value="">Tipo de contrato</option>
+      <option value="temporal">Temporal</option>
+      <option value="indefinido">Indefinido</option>
+    </select>
+    <input type="text" id="filtro-busqueda" placeholder="Descripción de lo que buscas">
+    <button onclick="$('#jobsTable').DataTable().search($('#filtro-busqueda').val()).draw();">Buscar</button>
+  </div>
+
+  <table id="jobsTable" class="display">
+    <thead>
+      <tr>
+        <th>Nombre de la empresa</th>
+        <th>Cargo/oferta laboral</th>
+        <th>Descripción del cargo</th>
+        <th>Requisitos</th>
+        <th>Tipo de contrato</th>
+        <th>Fecha límite de contratación</th>
+        <th>Correo de contacto</th>
+        <th>Salario</th>
+        <th>Horario</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script>
+    const STORAGE_KEY = 'filtros_empleo';
+    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXWQr4PMrDuSUQ3EegGr5nuOS667axiMl-7IFx9QiGrRh0PcuUtjKuNHQbweeO_C63EGhW50JgsfZ0/pub?output=csv';
+
+    Papa.parse(SHEET_CSV_URL, {
+      download: true,
+      header: true,
+      complete: function(results) {
+        console.log('Resultado PapaParse:', results);
+console.log('Filas cargadas:', results.data);
+
+const data = results.data;
+if (!data || !Array.isArray(data)) {
+  alert('No se cargaron datos desde el CSV.');
+  return;
+}
+data.forEach(row => {
+  if (!row['Nombre de la empresa']) return;
+  console.log('Fila:', row);
+  $('#tableBody').append(`
+
+            <tr>
+              <td>${row['Nombre de la empresa']}</td>
+              <td>${row['Cargo/oferta laboral']}</td>
+              <td>${row['Descripción del cargo']}</td>
+              <td>${row['Requisitos']}</td>
+              <td>${row['Tipo de contrato']}</td>
+              <td>${row['Fecha límite de contratación']}</td>
+              <td>${row['Correo de contacto']}</td>
+              <td>${row['Salario']}</td>
+              <td>${row['Horario']}</td>
+            </tr>
+          `);
+        });
+
+        const table = $('#jobsTable').DataTable();
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+        if (saved.contrato) $('#filtro-contrato').val(saved.contrato).trigger('change');
+        if (saved.estado) $('#filtro-estado').val(saved.estado).trigger('change');
+        if (saved.mes) $('#filtro-mes').val(saved.mes).trigger('change');
+        if (saved.busqueda) {
+          $('#filtro-busqueda').val(saved.busqueda);
+          table.search(saved.busqueda).draw();
+        }
+
+        $('#filtro-contrato').on('change', function () {
+          table.column(4).search(this.value).draw();
+          saved.contrato = this.value;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+        });
+        $('#filtro-estado').on('change', function () {
+          table.column(5).search(this.value).draw();
+          saved.estado = this.value;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+        });
+        $('#filtro-mes').on('change', function () {
+          table.search(this.value).draw();
+          saved.mes = this.value;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+        });
+        $('#filtro-busqueda').on('input', function () {
+          saved.busqueda = this.value;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+        });
+      }
+    });
+  </script>
+</body>
+</html>

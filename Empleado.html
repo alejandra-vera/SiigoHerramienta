@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Empresa - Registro</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .sidebar {
+      width: 180px;
+      background-color: #d9e1f2;
+      height: 100vh;
+      position: fixed;
+      padding-top: 20px;
+    }
+
+    .sidebar button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      width: 150px;
+      cursor: pointer;
+    }
+
+    .main {
+      margin-left: 180px;
+      padding: 20px;
+      background-color: #6fa8dc;
+      height: 100vh;
+    }
+
+    h1 {
+      text-align: center;
+      color: #000;
+    }
+
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    select,
+    textarea {
+      padding: 5px;
+      width: 200px;
+      box-sizing: border-box;
+    }
+
+    .textarea-large {
+      width: 300px;
+      height: 100px;
+    }
+
+    .textarea-wide {
+      width: 250px;
+      height: 100px;
+    }
+
+    .submit-btn {
+      margin-top: 20px;
+      text-align: center;
+      width: 100%;
+    }
+
+    button[type="submit"] {
+      padding: 10px 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <button>Registro de empresa</button>
+    <button>Registro de empleados</button>
+    <button>Información de las empresas</button>
+    <button>Información de los empleados</button>
+  </div>
+
+  <div class="main">
+    <h1>Empresa</h1>
+    <form>
+      <div class="form-group">
+        <label>Empresa</label>
+        <input type="text" name="empresa">
+
+        <label>Cargo / Oferta laboral</label>
+        <input type="text" name="cargo">
+
+        <label>Ciudad</label>
+        <input type="text" name="ciudad">
+
+        <label>Salario</label>
+        <input type="text" name="salario">
+
+        <label>Tipo de contrato</label>
+        <select name="contrato">
+          <option value="">Seleccione</option>
+          <option value="fijo">Fijo</option>
+          <option value="indefinido">Indefinido</option>
+        </select>
+
+        <label>Requisitos</label>
+        <textarea name="requisitos"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Lugar de trabajo</label>
+        <input type="text" name="lugar">
+
+        <label>Enviar hoja de vida</label>
+        <input type="text" name="hoja_vida">
+
+        <label>Fecha</label>
+        <input type="date" name="fecha">
+
+        <label>Estado</label>
+        <select name="estado">
+          <option value="">ComboBox</option>
+        </select>
+
+        <label>Horario</label>
+        <input type="text" name="horario">
+      </div>
+
+      <div class="form-group">
+        <label>Perfil</label>
+        <textarea class="textarea-large" name="perfil"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Principales funciones</label>
+        <textarea class="textarea-wide" name="funciones"></textarea>
+      </div>
+
+      <div class="submit-btn">
+        <button type="submit">Registrar</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
