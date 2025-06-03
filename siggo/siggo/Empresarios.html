@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Registro de Empresarios</title>
+  <link rel="stylesheet" href="styles.css" /> <style>
+    .sidebar {
+      width: 180px;
+      background-color: #d9e1f2;
+      height: 100vh;
+      position: fixed;
+      padding-top: 20px;
+    }
+    .sidebar a button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      width: 150px;
+      cursor: pointer;
+    }
+    .main {
+      margin-left: 180px;
+      padding: 20px;
+      background-color: #6fa8dc;
+      min-height: 100vh;
+    }
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    input, select, textarea {
+      padding: 5px;
+      width: 200px;
+      box-sizing: border-box;
+    }
+    .textarea-large {
+      width: 300px;
+      height: 100px;
+    }
+    .textarea-wide {
+      width: 250px;
+      height: 100px;
+    }
+    .submit-btn {
+      margin-top: 20px;
+      text-align: center;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <a href="Empresarios.html"><button>Registro de empresarios</button></a>
+    <a href="Empleados.html"><button>Registro de empleados</button></a>
+    <a href="EmpresariosTable.html"><button>Información de las empresas</button></a>
+    <a href="EmpleadosTable.html"><button>Información de los empleados</button></a>
+  </div>
+
+  <div class="main">
+    <h1>Registro de Empresarios</h1>
+    <form id="empresarioForm">
+      <div class="form-group">
+        <label for="nombreEmpresario">Nombre completo</label>
+        <input type="text" id="nombreEmpresario" name="nombreEmpresario" required />
+        <label for="empresa">Empresa</label>
+        <input type="text" id="empresa" name="empresa" required />
+        <label for="ciudadEmpresa">Ciudad</label>
+        <input type="text" id="ciudadEmpresa" name="ciudadEmpresa" />
+        <label for="correoEmpresa">Correo electrónico</label>
+        <input type="email" id="correoEmpresa" name="correoEmpresa" required />
+        <label for="telefonoEmpresa">Teléfono</label>
+        <input type="tel" id="telefonoEmpresa" name="telefonoEmpresa" />
+      </div>
+
+      <div class="form-group">
+        <label for="sector">Sector de la empresa</label>
+        <select id="sector" name="sector">
+          <option value="">Seleccione</option>
+          <option value="tecnologia">Tecnología</option>
+          <option value="finanzas">Finanzas</option>
+          <option value="salud">Salud</option>
+          <option value="educacion">Educación</option>
+          <option value="otros">Otros</option>
+        </select>
+        <label for="descripcionEmpresa">Descripción de la empresa</label>
+        <textarea class="textarea-large" id="descripcionEmpresa" name="descripcionEmpresa"></textarea>
+        <label for="direccion">Dirección</label>
+        <input type="text" id="direccion" name="direccion" />
+      </div>
+
+      <div class="submit-btn">
+        <button type="submit">Registrar empresario</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('empresarioForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const empresario = {
+        nombreEmpresario: document.getElementById('nombreEmpresario').value,
+        empresa: document.getElementById('empresa').value,
+        ciudadEmpresa: document.getElementById('ciudadEmpresa').value,
+        correoEmpresa: document.getElementById('correoEmpresa').value,
+        telefonoEmpresa: document.getElementById('telefonoEmpresa').value,
+        sector: document.getElementById('sector').value,
+        descripcionEmpresa: document.getElementById('descripcionEmpresa').value,
+        direccion: document.getElementById('direccion').value
+      };
+
+      let empresarios = JSON.parse(localStorage.getItem('empresarios')) || [];
+      empresarios.push(empresario);
+      localStorage.setItem('empresarios', JSON.stringify(empresarios));
+
+      alert('¡Empresario registrado exitosamente!');
+      this.reset();
+    });
+  </script>
+</body>
+</html>

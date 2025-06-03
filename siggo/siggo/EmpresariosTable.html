@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Información de las empresas</title>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+  <link rel="stylesheet" href="styles.css" /> <style>
+    /* Sidebar fijo */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+    }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 180px;
+      height: 100vh;
+      background-color: #333;
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .sidebar a button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background-color: #444;
+      color: white;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+    }
+    .sidebar a button:hover {
+      background-color: #555;
+    }
+
+    /* Header */
+    header {
+      background-color: #007acc;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin-left: 180px;
+    }
+
+    /* Contenido principal */
+    .content {
+      margin-left: 180px;
+      padding: 20px;
+    }
+
+    /* Contenedor filtros */
+    .filters {
+      background-color: #e6f0ff;
+      padding: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: flex-start;
+      align-items: center;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      max-width: 1000px;
+    }
+    .filters select,
+    .filters input[type="text"] {
+      padding: 8px 12px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      min-width: 150px;
+      transition: border-color 0.3s;
+    }
+    .filters select:focus,
+    .filters input[type="text"]:focus {
+      border-color: #007acc;
+      outline: none;
+    }
+    .filters button {
+      padding: 9px 20px;
+      background-color: #007acc;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .filters button:hover {
+      background-color: #005fa3;
+    }
+
+    /* Tabla */
+    table.dataTable {
+      width: 95% !important;
+      margin: auto;
+      border-collapse: collapse;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <a href="Home.html"><button>Home</button></a>
+    <a href="Empresarios.html"><button>Registro de empresario</button></a>
+    <a href="Empleado.html"><button>Registro de empleados</button></a>
+    <a href="EmpresariosTable.html"><button>Información de las empresas</button></a>
+    <a href="EmpleadosTable.html"><button>Información de los empleados</button></a>
+  </div>
+
+  <header>Información de las empresas</header>
+
+  <div class="content">
+    <div class="filters" role="region" aria-label="Filtros de búsqueda">
+      <select id="filtro-sector" aria-label="Filtrar por sector">
+        <option value="">Sector</option>
+        <option value="tecnologia">Tecnología</option>
+        <option value="finanzas">Finanzas</option>
+        <option value="salud">Salud</option>
+        <option value="educacion">Educación</option>
+        <option value="otros">Otros</option>
+      </select>
+      <input type="text" id="filtro-busqueda" placeholder="Buscar empresas..." aria-label="Buscar descripción" />
+      <button id="btnBuscar" type="button" aria-label="Buscar">Buscar</button>
+    </div>
+
+    <table id="empresasTable" class="display" aria-describedby="Información de empresas registradas">
+      <thead>
+        <tr>
+          <th>Nombre Empresario</th>
+          <th>Empresa</th>
+          <th>Ciudad</th>
+          <th>Correo</th>
+          <th>Teléfono</th>
+          <th>Sector</th>
+          <th>Descripción Empresa</th>
+          <th>Dirección</th>
+        </tr>
+      </thead>
+      <tbody>
+        </tbody>
+    </table>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      const table = $('#empresasTable').DataTable({
+        language: {
+          search: "Buscar:",
+          lengthMenu: "Mostrar _MENU_ registros",
+          info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+          paginate: {
+            previous: "Anterior",
+            next: "Siguiente"
+          },
+          zeroRecords: "No se encontraron registros"
+        },
+        columns: [
+          { data: 'nombreEmpresario' },
+          { data: 'empresa' },
+          { data: 'ciudadEmpresa' },
+          { data: 'correoEmpresa' },
+          { data: 'telefonoEmpresa' },
+          { data: 'sector' },
+          { data: 'descripcionEmpresa' },
+          { data: 'direccion' }
+        ]
+      });
+
+      let empresarios = JSON.parse(localStorage.getItem('empresarios')) || [];
+      table.clear().rows.add(empresarios).draw();
+
+      $('#filtro-sector').on('change', function () {
+        table.column(5).search(this.value).draw();
+      });
+
+      $('#filtro-busqueda').on('keyup', function () {
+        table.search(this.value).draw();
+      });
+
+      $('#btnBuscar').on('click', function () {
+        table.search($('#filtro-busqueda').val()).draw();
+      });
+    });
+  </script>
+</body>
+</html>
