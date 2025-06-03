@@ -4,10 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fundación Siigo - Acceso</title>
-  <link rel="stylesheet" href="styles.css"> </head>
+  <link rel="stylesheet" href="styles.css">
+ </head>
+  
 <body class="login-body">
+  
   <div class="form-container">
-    <img src="img/logo.jpeg" alt="Logo Fundación Siigo">
+    <img src= "C:\Users\aleja\Documents\Siigo\SiigoHerramienta\siggo\siggo\fundacion-siigo-logo.png" class="logo">
     <h1>Fundación Siigo</h1>
     <h2>Acceso</h2>
     <form onsubmit="return redirectUser()">
@@ -28,6 +31,15 @@
           <option value="empresa">Empresa</option>
         </select>
 
+        <div class="checkbox-container">
+          <input type="checkbox" id="autorizacion" name="autorizacion" required>
+          <label for="autorizacion">
+            Autorizo el tratamiento de mis datos personales según la Ley 1581 de 2012 y el Decreto 1377 de 2013.
+            <a href="#" onclick="openModal(); return false;">(ver política)</a>
+            <a href="politica_datos.pdf" download style="margin-left: 10px;">Descargar PDF</a>
+          </label>
+        </div>
+        
         <div class="submit-container">
           <button type="submit">Ingresar</button>
         </div>
@@ -38,14 +50,13 @@
     function redirectUser() {
       const tipo = document.getElementById("tipo").value;
       if (tipo === "empleado") {
-        window.location.href = "Empleado.html"; // Redirige al registro de empleados
+        window.location.href = "Empleado.html"; 
       } else if (tipo === "empresa") {
-        window.location.href = "Empresarios.html"; // Redirige al registro de empresarios
-      } else {
+        window.location.href = "Empresarios.html"; 
         alert("Por favor, seleccione un tipo (Empleado o Empresa) para ingresar.");
-        return false; // Evita la redirección si no se ha seleccionado nada válido
+        return false;
       }
-      return false; // Evita el envío del formulario por defecto
+      return false;
     }
   </script>
 </body>

@@ -4,10 +4,22 @@ body.login-body {
     margin: 0;
     padding: 0;
     display: flex;
+    
     justify-content: center;
     align-items: center;
     height: 100vh;
   }
+  .form-container img {
+      display: block;
+      margin: 0 auto 10px;
+      max-width: 150px;
+      height: auto;
+      background-color: white;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
   .form-container {
     background-color: #6baa46;
     text-align: center;
@@ -18,10 +30,12 @@ body.login-body {
   }
   .form-container h1 {
     color: #ffffff;
+    text-align: center;
     margin-bottom: 10px;
   }
   .form-container h2 {
-    margin-bottom: 20px;
+    text-align: center;
+    margin-bottom: 0px;
   }
   form {
     display: inline-block;
@@ -53,4 +67,16 @@ body.login-body {
   .submit-container {
     text-align: center;
     margin-top: 20px;
+  }
+
+  .logo {
+  
+    width: 150px;  
+    height: auto;    
+    display: block;    
+    margin-left: auto;  
+    margin-right: auto; 
+    margin-bottom: 20px; 
+    border-radius: 50%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   }
